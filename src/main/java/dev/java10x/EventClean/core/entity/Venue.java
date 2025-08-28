@@ -6,6 +6,7 @@ public record Venue(
         String street,
         String number,
         String neighborhood,
-        String zipCode
+        String zipCode,
+        Event event
 ) {
 }
