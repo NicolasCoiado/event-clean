@@ -19,7 +19,7 @@ public class VenueEntity {
     private String street;
     private String number;
     private String neighborhood;
-    @Column(nullable = false)
+    @Column(name = "zipcode", nullable = false)
     private String zipCode;
     @OneToOne(mappedBy = "venue")
     private EventEntity event;
