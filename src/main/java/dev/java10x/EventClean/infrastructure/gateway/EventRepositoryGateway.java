@@ -8,6 +8,8 @@ import dev.java10x.EventClean.infrastructure.persistence.EventRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @RequiredArgsConstructor
 @Component
 public class EventRepositoryGateway implements EventGateway {
@@ -22,4 +24,15 @@ public class EventRepositoryGateway implements EventGateway {
         return eventEntityMapper.toDomain(newEvent);
     }
 
+    @Override
+    public Event findEventById(Long id) {
+        Optional<EventEntity> event = eventRepository.findById(id);
+        return eventEntityMapper.toDomain(event.get());
+    }
+
+    @Override
+    public Event findEventByIdentifier(String identifier) {
+        Optional<EventEntity> event = eventRepository.findEventByIdentifier(identifier);
+        return eventEntityMapper.toDomain(event.get());
+    }
 }
