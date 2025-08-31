@@ -14,6 +14,11 @@ public class BeanConfiguration {
     }
 
     @Bean
+    public ListEventsUseCase listEvents (EventGateway eventGateway){
+        return new ListEventsUseCaseImpl(eventGateway);
+    }
+
+    @Bean
     public FindEventByIdUseCase findEventById (EventGateway eventGateway){
         return new FindEventByIdUseCaseImpl(eventGateway);
     }
