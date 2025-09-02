@@ -15,6 +15,6 @@ public class ListEventsUseCaseImpl implements ListEventsUseCase{
 
     @Override
     public List<Event> execute () {
-        return eventGateway.ListEvents();
+        return eventGateway.listEvents();
     }
 }
