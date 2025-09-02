@@ -8,5 +8,5 @@ public interface EventGateway {
     Event createEvent (Event event);
     Event findEventById (Long id);
     Event findEventByIdentifier (String identifier);
-    List<Event> ListEvents ();
+    List<Event> listEvents();
 }
