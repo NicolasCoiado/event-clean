@@ -8,47 +8,53 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class VenueEntityMapper {
+        private EventEntityMapper eventEntityMapper;
 
-    public VenueEntity toEntity(Venue venue, EventEntity eventEntity) {
-        if (venue == null) return null;
+        public VenueEntity toEntity (Venue venue){
 
-        return new VenueEntity(
-                venue.id(),
-                venue.establishment_name(),
-                venue.street(),
-                venue.number(),
-                venue.neighborhood(),
-                venue.zipCode(),
-                eventEntity
-        );
-    }
+            VenueEntity venueEntity = new VenueEntity();
 
-    public Venue toDomain(VenueEntity venueEntity) {
-        if (venueEntity == null) return null;
+            venueEntity.setId(venue.id());
+            venueEntity.setEstablishment_name(venue.establishment_name());
+            venueEntity.setStreet(venue.street());
+            venueEntity.setNumber(venue.number());
+            venueEntity.setNeighborhood(venue.neighborhood());
+            venueEntity.setZipCode(venue.zipCode());
 
-        return new Venue(
-                venueEntity.getId(),
-                venueEntity.getEstablishment_name(),
-                venueEntity.getStreet(),
-                venueEntity.getNumber(),
-                venueEntity.getNeighborhood(),
-                venueEntity.getZipCode(),
-                null
-        );
-    }
+            if (venue.event() == null){
+                venueEntity.setEvent(null);
+            }else{
+                EventEntity eventEntity = eventEntityMapper.toEntity(venue.event());
+                venueEntity.setEvent(eventEntity);
+            }
 
+            return venueEntity;
+        }
 
-    public Venue toDomainWithEvent(VenueEntity venueEntity, Event event) {
-        Venue venue = toDomain(venueEntity);
+        public Venue toDomain (VenueEntity venueEntity){
+            if(venueEntity.getEvent() == null){
+                return new Venue(
+                        venueEntity.getId(),
+                        venueEntity.getEstablishment_name(),
+                        venueEntity.getStreet(),
+                        venueEntity.getNumber(),
+                        venueEntity.getNeighborhood(),
+                        venueEntity.getZipCode(),
+                        null
+                );
+            }else{
+                Event event = eventEntityMapper.toDomain(venueEntity.getEvent());
 
-        return new Venue(
-                venue.id(),
-                venue.establishment_name(),
-                venue.street(),
-                venue.number(),
-                venue.neighborhood(),
-                venue.zipCode(),
-                event
-        );
-    }
+                return new Venue(
+                        venueEntity.getId(),
+                        venueEntity.getEstablishment_name(),
+                        venueEntity.getStreet(),
+                        venueEntity.getNumber(),
+                        venueEntity.getNeighborhood(),
+                        venueEntity.getZipCode(),
+                        event
+                );
+            }
+
+        }
 }
