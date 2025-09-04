@@ -28,8 +28,7 @@ public class EventEntity {
     private LocalDateTime start_date;
     @Column(nullable = false)
     private LocalDateTime end_date;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "venue_id", referencedColumnName = "id")
+    @OneToOne(mappedBy = "event")
     private VenueEntity venue;
     private Integer capacity;
     @Enumerated(EnumType.STRING)

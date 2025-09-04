@@ -11,7 +11,7 @@ public record Event (
     String identifier,
     LocalDateTime start_date,
     LocalDateTime end_date,
-    Venue venue,
+    Long venueId,
     Integer capacity,
     EventType type
 ){

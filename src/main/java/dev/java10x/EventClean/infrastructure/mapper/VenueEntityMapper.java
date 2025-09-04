@@ -1,60 +1,52 @@
 package dev.java10x.EventClean.infrastructure.mapper;
 
-import dev.java10x.EventClean.core.entity.Event;
 import dev.java10x.EventClean.core.entity.Venue;
 import dev.java10x.EventClean.infrastructure.persistence.EventEntity;
 import dev.java10x.EventClean.infrastructure.persistence.VenueEntity;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class VenueEntityMapper {
-        private EventEntityMapper eventEntityMapper;
+    public VenueEntity toEntity (Venue venueDomain){
+        VenueEntity venueEntity = new VenueEntity();
+        venueEntity.setId(venueDomain.id());
+        venueEntity.setEstablishment_name(venueDomain.establishment_name());
+        venueEntity.setStreet(venueDomain.street());
+        venueEntity.setNumber(venueDomain.number());
+        venueEntity.setNeighborhood(venueDomain.neighborhood());
+        venueEntity.setZipCode(venueDomain.zipCode());
+        venueEntity.setEvent(null);
 
-        public VenueEntity toEntity (Venue venue){
+        return venueEntity;
+    }
 
-            VenueEntity venueEntity = new VenueEntity();
+    public VenueEntity toEntityWithEvent (Venue venueDomain, EventEntity event){
+        VenueEntity venueEntity = new VenueEntity();
+        venueEntity.setId(venueDomain.id());
+        venueEntity.setEstablishment_name(venueDomain.establishment_name());
+        venueEntity.setStreet(venueDomain.street());
+        venueEntity.setNumber(venueDomain.number());
+        venueEntity.setNeighborhood(venueDomain.neighborhood());
+        venueEntity.setZipCode(venueDomain.zipCode());
+        venueEntity.setEvent(event);
 
-            venueEntity.setId(venue.id());
-            venueEntity.setEstablishment_name(venue.establishment_name());
-            venueEntity.setStreet(venue.street());
-            venueEntity.setNumber(venue.number());
-            venueEntity.setNeighborhood(venue.neighborhood());
-            venueEntity.setZipCode(venue.zipCode());
+        return venueEntity;
+    }
 
-            if (venue.event() == null){
-                venueEntity.setEvent(null);
-            }else{
-                EventEntity eventEntity = eventEntityMapper.toEntity(venue.event());
-                venueEntity.setEvent(eventEntity);
-            }
+    public Venue toDomain (VenueEntity venueEntity){
+        return new Venue(
+            venueEntity.getId(),
+            venueEntity.getEstablishment_name(),
+            venueEntity.getStreet(),
+            venueEntity.getNumber(),
+            venueEntity.getNeighborhood(),
+            venueEntity.getZipCode(),
+            venueEntity.getEvent() != null ? venueEntity.getEvent().getId() : null
+        );
+    }
 
-            return venueEntity;
-        }
 
-        public Venue toDomain (VenueEntity venueEntity){
-            if(venueEntity.getEvent() == null){
-                return new Venue(
-                        venueEntity.getId(),
-                        venueEntity.getEstablishment_name(),
-                        venueEntity.getStreet(),
-                        venueEntity.getNumber(),
-                        venueEntity.getNeighborhood(),
-                        venueEntity.getZipCode(),
-                        null
-                );
-            }else{
-                Event event = eventEntityMapper.toDomain(venueEntity.getEvent());
 
-                return new Venue(
-                        venueEntity.getId(),
-                        venueEntity.getEstablishment_name(),
-                        venueEntity.getStreet(),
-                        venueEntity.getNumber(),
-                        venueEntity.getNeighborhood(),
-                        venueEntity.getZipCode(),
-                        event
-                );
-            }
-
-        }
 }
