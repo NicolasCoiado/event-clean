@@ -8,7 +8,7 @@ public interface VenueGateway {
     Venue registerVenue (Venue venue);
 
 //    List<Venue> listVenues ();
-//    Venue findVenueById (Long id);
+    Venue findVenueById (Long id);
 //    Venue findVenueByStablishmentName (String stablishmentName);
 //    Venue findVenueByNeighborhood (String neighborhood);
 //    Venue findVenueByZipCode (String zipcode);
