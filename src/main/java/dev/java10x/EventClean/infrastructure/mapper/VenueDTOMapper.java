@@ -1,10 +1,13 @@
 package dev.java10x.EventClean.infrastructure.mapper;
 
+import dev.java10x.EventClean.core.entity.Event;
 import dev.java10x.EventClean.core.entity.Venue;
 import dev.java10x.EventClean.infrastructure.dtos.VenueDTO;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class VenueDTOMapper {
 
     public VenueDTO toDTO (Venue entity){
@@ -16,7 +19,7 @@ public class VenueDTOMapper {
                 entity.number(),
                 entity.neighborhood(),
                 entity.zipCode(),
-                entity.event()
+                entity.eventId()
         );
 
     }
@@ -30,7 +33,7 @@ public class VenueDTOMapper {
                 dto.number(),
                 dto.neighborhood(),
                 dto.zipCode(),
-                dto.event()
+                dto.idEvent()
         );
 
     }

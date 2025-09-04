@@ -21,6 +21,7 @@ public class VenueEntity {
     private String neighborhood;
     @Column(name = "zipcode", nullable = false)
     private String zipCode;
-    @OneToOne(mappedBy = "venue")
+    @OneToOne
+    @JoinColumn(name = "event_id", referencedColumnName = "id") // cria coluna event_id em Venues
     private EventEntity event;
 }

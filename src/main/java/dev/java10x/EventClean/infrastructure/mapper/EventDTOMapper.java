@@ -16,7 +16,7 @@ public class EventDTOMapper {
                 entity.identifier(),
                 entity.start_date(),
                 entity.end_date(),
-                entity.venue(),
+                entity.venueId(),
                 entity.capacity(),
                 entity.type()
         );
@@ -32,7 +32,7 @@ public class EventDTOMapper {
                 dto.identifier(),
                 dto.start_date(),
                 dto.end_date(),
-                dto.venue(),
+                dto.idVenue(),
                 dto.capacity(),
                 dto.type()
         );
