@@ -9,5 +9,16 @@ public enum EventType {
     SOCIAL,
     POLITICAL,
     GASTRONOMIC,
-    TRADE_SHOW
+    TRADE_SHOW,
+    WORKSHOP,
+    CONCERT,
+    FESTIVAL,
+    CHARITY,
+    NETWORKING,
+    SEMINAR,
+    CONFERENCE,
+    WEBINAR,
+    EXHIBITION,
+    COMPETITION,
+    TOURISM
 }
