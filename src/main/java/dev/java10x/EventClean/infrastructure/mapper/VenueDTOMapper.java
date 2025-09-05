@@ -13,7 +13,7 @@ public class VenueDTOMapper {
 
         return new VenueDTO(
                 entity.id(),
-                entity.stablishment_name(),
+                entity.adstablishment_name(),
                 entity.street(),
                 entity.number(),
                 entity.neighborhood(),

@@ -3,10 +3,7 @@ package dev.java10x.EventClean.infrastructure.beans;
 import dev.java10x.EventClean.core.gateway.EventGateway;
 import dev.java10x.EventClean.core.gateway.VenueGateway;
 import dev.java10x.EventClean.core.usecases.eventUseCases.*;
-import dev.java10x.EventClean.core.usecases.venueUseCases.FindVenueByIdUseCase;
-import dev.java10x.EventClean.core.usecases.venueUseCases.FindVenueByIdUseCaseImpl;
-import dev.java10x.EventClean.core.usecases.venueUseCases.RegisterVenueUseCase;
-import dev.java10x.EventClean.core.usecases.venueUseCases.RegisterVenueUseCaseImpl;
+import dev.java10x.EventClean.core.usecases.venueUseCases.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -43,8 +40,22 @@ public class BeanConfiguration {
     }
 
     @Bean
+    public ListVenuesUseCase listVenuesUseCase (VenueGateway venueGateway){
+        return new ListVenuesUseCaseImpl(venueGateway);
+    }
+
+    @Bean
     public FindVenueByIdUseCase findVenueById (VenueGateway venueGateway){
         return new FindVenueByIdUseCaseImpl(venueGateway);
     }
 
+    @Bean
+    public FindVenueByZipCodeUseCase findVenueByZipCode (VenueGateway venueGateway){
+        return new FindVenueByZipCodeUseCaseImpl(venueGateway);
+    }
+
+    @Bean
+    public FindVenueByStablishmentNameUseCase findVenueByStablishmentName (VenueGateway venueGateway){
+        return new FindVenueByStablishmentNameUseCaseImpl(venueGateway);
+    }
 }

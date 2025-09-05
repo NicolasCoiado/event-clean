@@ -10,6 +10,7 @@ import dev.java10x.EventClean.infrastructure.persistence.VenueRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -40,29 +41,32 @@ public class VenueRepositoryGateway implements VenueGateway {
         return venueEntityMapper.toDomain(venueSaved);
     }
 
-//    @Override
-//    public List<Venue> listVenues() {
-//        return List.of();
-//    }
-//
+    @Override
+    public List<Venue> listVenues() {
+        List<VenueEntity> venueEntities = venueRepository.findAll();
+        return venueEntities.stream().map(venueEntityMapper::toDomain).toList();
+    }
+
     @Override
     public Venue findVenueById(Long id) {
         Optional<VenueEntity> optVenue = venueRepository.findById(id);
         return venueEntityMapper.toDomain(optVenue.get());
     }
-//
-//    @Override
-//    public Venue findVenueByStablishmentName(String stablishmentName) {
-//        return null;
-//    }
+
+    @Override
+    public Venue findVenueByStablishmentName(String stablishmentName) {
+        Optional<VenueEntity> venueEntity = venueRepository.findVenueByStablishmentName(stablishmentName);
+        return venueEntityMapper.toDomain(venueEntity.get());
+    }
 //
 //    @Override
 //    public Venue findVenueByNeighborhood(String neighborhood) {
 //        return null;
 //    }
 //
-//    @Override
-//    public Venue findVenueByZipCode(String zipcode) {
-//        return null;
-//    }
+    @Override
+    public Venue findVenueByZipCode(String zipcode) {
+        Optional<VenueEntity> venueEntity = venueRepository.findVenueByZipCode(zipcode);
+        return venueEntityMapper.toDomain(venueEntity.get());
+    }
 }
