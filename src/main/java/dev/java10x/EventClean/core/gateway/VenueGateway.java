@@ -10,7 +10,7 @@ public interface VenueGateway {
     List<Venue> listVenues ();
     Venue findVenueById (Long id);
     Venue findVenueByStablishmentName (String stablishmentName);
-//    Venue findVenueByNeighborhood (String neighborhood);
+    Venue findVenueByNeighborhood (String neighborhood);
     Venue findVenueByZipCode (String zipcode);
 
     // TODO: Create put to Venue

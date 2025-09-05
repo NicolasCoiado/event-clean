@@ -58,12 +58,13 @@ public class VenueRepositoryGateway implements VenueGateway {
         Optional<VenueEntity> venueEntity = venueRepository.findVenueByStablishmentName(stablishmentName);
         return venueEntityMapper.toDomain(venueEntity.get());
     }
-//
-//    @Override
-//    public Venue findVenueByNeighborhood(String neighborhood) {
-//        return null;
-//    }
-//
+
+    @Override
+    public Venue findVenueByNeighborhood(String neighborhood) {
+        Optional<VenueEntity> optVenueFound = venueRepository.findVenueByNeighborhood(neighborhood);
+        return venueEntityMapper.toDomain(optVenueFound.get());
+    }
+
     @Override
     public Venue findVenueByZipCode(String zipcode) {
         Optional<VenueEntity> venueEntity = venueRepository.findVenueByZipCode(zipcode);

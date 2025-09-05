@@ -9,4 +9,5 @@ import java.util.Optional;
 public interface VenueRepository extends JpaRepository<VenueEntity, Long> {
     public Optional<VenueEntity> findVenueByZipCode (String zipcode);
     public Optional<VenueEntity> findVenueByStablishmentName(String stablishmentName);
+    public Optional<VenueEntity> findVenueByNeighborhood (String neighborhood);
 }

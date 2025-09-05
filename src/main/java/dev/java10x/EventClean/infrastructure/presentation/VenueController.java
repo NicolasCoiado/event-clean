@@ -19,11 +19,14 @@ import java.util.Map;
 public class VenueController {
 
     private final VenueDTOMapper venueDTOMapper;
+
     private final RegisterVenueUseCase registerVenueUseCase;
+
     private final ListVenuesUseCase listVenuesUseCase;
     private final FindVenueByIdUseCase findVenueByIdUseCase;
     private final FindVenueByZipCodeUseCase findVenueByZipCodeUseCase;
     private final FindVenueByStablishmentNameUseCase findVenueByStablishmentNameUseCase;
+    private final FindVenueByNeighborhoodUseCase findVenueByNeighborhoodUseCase;
 
     @PostMapping
     public ResponseEntity<Map<String, Object>> registerVenue (@RequestBody VenueDTO dto){
@@ -54,7 +57,7 @@ public class VenueController {
     }
 
     @GetMapping("/zipcode")
-    public ResponseEntity<Map<String, Object>> findBenueByZipCode (@RequestParam String zipcode){
+    public ResponseEntity<Map<String, Object>> findVenueByZipCode (@RequestParam String zipcode){
         Venue venueFound = findVenueByZipCodeUseCase.execute(zipcode);
         Map<String, Object> response = new HashMap<>();
         response.put("Message: ", "Venue successfully found.");
@@ -63,8 +66,17 @@ public class VenueController {
     }
 
     @GetMapping("/stablishment")
-    public ResponseEntity<Map<String, Object>> findBenueByStablishmentName (@RequestParam String stablishmentName){
+    public ResponseEntity<Map<String, Object>> findVenueByStablishmentName (@RequestParam String stablishmentName){
         Venue venueFound = findVenueByStablishmentNameUseCase.execute(stablishmentName);
+        Map<String, Object> response = new HashMap<>();
+        response.put("Message: ", "Venue successfully found.");
+        response.put("Venue details: ", venueDTOMapper.toDTO(venueFound));
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/neighborhood")
+    public ResponseEntity<Map<String, Object>> findVenueByNeighborhood (@RequestParam String neighborhood){
+        Venue venueFound = findVenueByNeighborhoodUseCase.execute(neighborhood);
         Map<String, Object> response = new HashMap<>();
         response.put("Message: ", "Venue successfully found.");
         response.put("Venue details: ", venueDTOMapper.toDTO(venueFound));

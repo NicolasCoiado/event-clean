@@ -58,4 +58,9 @@ public class BeanConfiguration {
     public FindVenueByStablishmentNameUseCase findVenueByStablishmentName (VenueGateway venueGateway){
         return new FindVenueByStablishmentNameUseCaseImpl(venueGateway);
     }
+
+    @Bean
+    public FindVenueByNeighborhoodUseCase findVenueByNeighborhoodUseCase (VenueGateway venueGateway){
+        return new FindVenueByNeighborhoodUseCaseImpl(venueGateway);
+    }
 }
