@@ -23,7 +23,7 @@ CREATE TABLE events (
 
 CREATE TABLE venues (
     id BIGSERIAL PRIMARY KEY,
-    establishment_name VARCHAR(255),
+    stablishment_name VARCHAR(255),
     street VARCHAR(255) NOT NULL,
     number VARCHAR(10),
     neighborhood VARCHAR(100),

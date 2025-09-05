@@ -14,7 +14,8 @@ public class VenueEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String establishment_name;
+    @Column(name = "stablishment_name")
+    private String stablishmentName;
     @Column(nullable = false)
     private String street;
     private String number;
@@ -22,6 +23,6 @@ public class VenueEntity {
     @Column(name = "zipcode", nullable = false)
     private String zipCode;
     @OneToOne
-    @JoinColumn(name = "event_id", referencedColumnName = "id") // cria coluna event_id em Venues
+    @JoinColumn(name = "event_id", referencedColumnName = "id")
     private EventEntity event;
 }

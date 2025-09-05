@@ -1,6 +1,5 @@
 package dev.java10x.EventClean.infrastructure.mapper;
 
-import dev.java10x.EventClean.core.entity.Event;
 import dev.java10x.EventClean.core.entity.Venue;
 import dev.java10x.EventClean.infrastructure.dtos.VenueDTO;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +13,7 @@ public class VenueDTOMapper {
 
         return new VenueDTO(
                 entity.id(),
-                entity.establishment_name(),
+                entity.stablishment_name(),
                 entity.street(),
                 entity.number(),
                 entity.neighborhood(),

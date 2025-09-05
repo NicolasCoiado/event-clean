@@ -12,7 +12,7 @@ public class VenueEntityMapper {
     public VenueEntity toEntity (Venue venueDomain){
         VenueEntity venueEntity = new VenueEntity();
         venueEntity.setId(venueDomain.id());
-        venueEntity.setEstablishment_name(venueDomain.establishment_name());
+        venueEntity.setStablishmentName(venueDomain.stablishment_name());
         venueEntity.setStreet(venueDomain.street());
         venueEntity.setNumber(venueDomain.number());
         venueEntity.setNeighborhood(venueDomain.neighborhood());
@@ -25,7 +25,7 @@ public class VenueEntityMapper {
     public VenueEntity toEntityWithEvent (Venue venueDomain, EventEntity event){
         VenueEntity venueEntity = new VenueEntity();
         venueEntity.setId(venueDomain.id());
-        venueEntity.setEstablishment_name(venueDomain.establishment_name());
+        venueEntity.setStablishmentName(venueDomain.stablishment_name());
         venueEntity.setStreet(venueDomain.street());
         venueEntity.setNumber(venueDomain.number());
         venueEntity.setNeighborhood(venueDomain.neighborhood());
@@ -38,7 +38,7 @@ public class VenueEntityMapper {
     public Venue toDomain (VenueEntity venueEntity){
         return new Venue(
             venueEntity.getId(),
-            venueEntity.getEstablishment_name(),
+            venueEntity.getStablishmentName(),
             venueEntity.getStreet(),
             venueEntity.getNumber(),
             venueEntity.getNeighborhood(),
