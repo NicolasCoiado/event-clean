@@ -2,9 +2,12 @@ package dev.java10x.EventClean.infrastructure.gateway;
 
 import dev.java10x.EventClean.core.entity.Event;
 import dev.java10x.EventClean.core.gateway.EventGateway;
+import dev.java10x.EventClean.infrastructure.config.IdentifierGenerator;
 import dev.java10x.EventClean.infrastructure.mapper.EventEntityMapper;
+import dev.java10x.EventClean.infrastructure.mapper.VenueEntityMapper;
 import dev.java10x.EventClean.infrastructure.persistence.EventEntity;
 import dev.java10x.EventClean.infrastructure.persistence.EventRepository;
+import dev.java10x.EventClean.infrastructure.persistence.VenueEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -18,9 +21,21 @@ public class EventRepositoryGateway implements EventGateway {
     private final EventRepository eventRepository;
     private final EventEntityMapper eventEntityMapper;
 
+    private final IdentifierGenerator identifierGenerator;
+    private final VenueRepositoryGateway venueRepositoryGateway;
+
     @Override
     public Event createEvent(Event event) {
+        String identifier = identifierGenerator.generate(event);
+
         EventEntity entity = eventEntityMapper.toEntity(event);
+        entity.setIdentifier(identifier);
+
+        if (event.venueId() != null) {
+            VenueEntity venueEntity = venueRepositoryGateway.findVenueEntityById(event.venueId());
+            entity.setVenue(venueEntity);
+        }
+
         EventEntity newEvent = eventRepository.save(entity);
         return eventEntityMapper.toDomain(newEvent);
     }
@@ -38,7 +53,7 @@ public class EventRepositoryGateway implements EventGateway {
     }
 
     @Override
-    public List<Event> ListEvents() {
+    public List<Event> listEvents() {
         List<EventEntity> eventEntities = eventRepository.findAll();
         return eventEntities.stream().map(eventEntityMapper::toDomain).toList();
     }
