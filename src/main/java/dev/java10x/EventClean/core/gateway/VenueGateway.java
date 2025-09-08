@@ -13,8 +13,7 @@ public interface VenueGateway {
     Venue findVenueByNeighborhood (String neighborhood);
     Venue findVenueByZipCode (String zipcode);
 
-    // TODO: Create put to Venue
-    // TODO: Create patch to Venue
-    // TODO: Create delete to Venue
-
+    Venue updateVenue(Long id, Venue venue);
+    Venue editVenue (Long id, Venue venue);
+    void deleteVenue (Long id);
 }

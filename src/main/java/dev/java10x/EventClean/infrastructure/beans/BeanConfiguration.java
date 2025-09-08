@@ -60,7 +60,22 @@ public class BeanConfiguration {
     }
 
     @Bean
-    public FindVenueByNeighborhoodUseCase findVenueByNeighborhoodUseCase (VenueGateway venueGateway){
+    public FindVenueByNeighborhoodUseCase findVenueByNeighborhood (VenueGateway venueGateway){
         return new FindVenueByNeighborhoodUseCaseImpl(venueGateway);
+    }
+
+    @Bean
+    public UpdateVenueUseCase updateVenue (VenueGateway venueGateway){
+        return new UpdateVenueUseCaseImpl(venueGateway);
+    }
+
+    @Bean
+    public EditVenueUseCase editVenue (VenueGateway venueGateway){
+        return new EditVenueUseCaseImpl(venueGateway);
+    }
+
+    @Bean
+    public DeleteVenueUseCase deleteVenue (VenueGateway venueGateway){
+        return new DeleteVenueUseCaseImpl(venueGateway);
     }
 }

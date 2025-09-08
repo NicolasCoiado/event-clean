@@ -28,6 +28,10 @@ public class VenueController {
     private final FindVenueByStablishmentNameUseCase findVenueByStablishmentNameUseCase;
     private final FindVenueByNeighborhoodUseCase findVenueByNeighborhoodUseCase;
 
+    private final UpdateVenueUseCase updateVenueUseCase;
+    private final EditVenueUseCase editVenueUseCase;
+    private final DeleteVenueUseCase deleteVenueUseCase;
+
     @PostMapping
     public ResponseEntity<Map<String, Object>> registerVenue (@RequestBody VenueDTO dto){
         Venue venue = registerVenueUseCase.execute(venueDTOMapper.toDomain(dto));
@@ -82,4 +86,31 @@ public class VenueController {
         response.put("Venue details: ", venueDTOMapper.toDTO(venueFound));
         return ResponseEntity.ok(response);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Map<String, Object>> updateVenue (@PathVariable Long id, @RequestBody VenueDTO venueDTO){
+        Venue venueUpdated = updateVenueUseCase.execute(id, venueDTOMapper.toDomain(venueDTO));
+        Map<String, Object> response = new HashMap<>();
+        response.put("Message: ", "Venue successfully updated.");
+        response.put("Venue details: ", venueDTOMapper.toDTO(venueUpdated));
+        return ResponseEntity.ok(response);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<Map<String, Object>> editVenue (@PathVariable Long id, @RequestBody VenueDTO venueDTO){
+        Venue editedVenue = editVenueUseCase.execute(id, venueDTOMapper.toDomain(venueDTO));
+        Map<String, Object> response = new HashMap<>();
+        response.put("Message: ", "Venue successfully edited.");
+        response.put("Venue details: ", venueDTOMapper.toDTO(editedVenue));
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Map<String, Object>> deleteVenue (@PathVariable Long id){
+        deleteVenueUseCase.execute(id);
+        Map<String, Object> response = new HashMap<>();
+        response.put("Message: ", "Venue successfully deleted.");
+        return ResponseEntity.ok(response);
+    }
+
 }
