@@ -1,10 +1,10 @@
 package dev.java10x.EventClean.infrastructure.presentation;
 
 import dev.java10x.EventClean.core.entity.Event;
-import dev.java10x.EventClean.core.usecases.CreateEventUseCase;
-import dev.java10x.EventClean.core.usecases.FindEventByIdUseCase;
-import dev.java10x.EventClean.core.usecases.FindEventByIdentifierUseCase;
-import dev.java10x.EventClean.core.usecases.ListEventsUseCase;
+import dev.java10x.EventClean.core.usecases.eventUseCases.CreateEventUseCase;
+import dev.java10x.EventClean.core.usecases.eventUseCases.FindEventByIdUseCase;
+import dev.java10x.EventClean.core.usecases.eventUseCases.FindEventByIdentifierUseCase;
+import dev.java10x.EventClean.core.usecases.eventUseCases.ListEventsUseCase;
 import dev.java10x.EventClean.infrastructure.dtos.EventDTO;
 import dev.java10x.EventClean.infrastructure.mapper.EventDTOMapper;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/v1")
+@RequestMapping("event")
 @RequiredArgsConstructor
 public class EventController{
 
@@ -23,9 +23,9 @@ public class EventController{
     private final FindEventByIdentifierUseCase findEventByIdentifierUseCase;
     private final EventDTOMapper eventDTOMapper;
 
-    @PostMapping("create")
+    @PostMapping
     public EventDTO createEvent(@RequestBody EventDTO dto){
-        Event newEvent = createEventCase.execute(eventDTOMapper.toDomain(dto)); //TODO: GENERATE VALUE TO IDENTIFIER
+        Event newEvent = createEventCase.execute(eventDTOMapper.toDomain(dto));
         return eventDTOMapper.toDTO(newEvent);
     }
 
@@ -35,14 +35,14 @@ public class EventController{
         return eventModels.stream().map(eventDTOMapper::toDTO).toList();        
     }
 
-    @GetMapping("id/{id}")
+    @GetMapping("/{id}")
     public EventDTO findEventById (@PathVariable Long id){
         // TODO: Create response DTO or remove Event from Venue response
         // TODO: Event not found
         return eventDTOMapper.toDTO(findEventByIdUseCase.execute(id));
     }
 
-    @GetMapping("identifier/{identifier}")
+    @GetMapping("/{identifier}")
     public EventDTO findEventByIdentifier (@PathVariable String identifier){
         return eventDTOMapper.toDTO(findEventByIdentifierUseCase.execute(identifier));
     }
