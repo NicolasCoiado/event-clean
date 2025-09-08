@@ -1,9 +1,6 @@
 package dev.java10x.EventClean.infrastructure.mapper;
 
 import dev.java10x.EventClean.core.entity.Event;
-import dev.java10x.EventClean.core.entity.Venue;
-import dev.java10x.EventClean.core.usecases.venueUseCases.FindVenueByIdUseCase;
-import dev.java10x.EventClean.core.usecases.venueUseCases.RegisterVenueUseCase;
 import dev.java10x.EventClean.infrastructure.persistence.EventEntity;
 import dev.java10x.EventClean.infrastructure.persistence.VenueEntity;
 import lombok.RequiredArgsConstructor;
@@ -50,7 +47,6 @@ public class EventEntityMapper {
     }
 
     public Event toDomain(EventEntity eventEntity) {
-
         return new Event(
                 eventEntity.getId(),
                 eventEntity.getTitle(),
@@ -58,10 +54,9 @@ public class EventEntityMapper {
                 eventEntity.getIdentifier(),
                 eventEntity.getStart_date(),
                 eventEntity.getEnd_date(),
-                eventEntity.getVenue().getId(),
+                eventEntity.getVenue() != null ? eventEntity.getVenue().getId() : null,
                 eventEntity.getCapacity(),
                 eventEntity.getType()
         );
-
     }
 }
