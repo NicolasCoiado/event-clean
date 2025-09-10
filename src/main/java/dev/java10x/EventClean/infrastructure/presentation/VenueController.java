@@ -4,6 +4,7 @@ import dev.java10x.EventClean.core.entity.Venue;
 import dev.java10x.EventClean.core.usecases.venueUseCases.*;
 import dev.java10x.EventClean.infrastructure.dtos.VenueDTO;
 import dev.java10x.EventClean.infrastructure.mapper.VenueDTOMapper;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +34,7 @@ public class VenueController {
     private final DeleteVenueUseCase deleteVenueUseCase;
 
     @PostMapping
-    public ResponseEntity<Map<String, Object>> registerVenue (@RequestBody VenueDTO dto){
+    public ResponseEntity<Map<String, Object>> registerVenue (@Valid @RequestBody VenueDTO dto){
         Venue venue = registerVenueUseCase.execute(venueDTOMapper.toDomain(dto));
         Map<String, Object> response = new HashMap<>();
         response.put("Message: ", "Venue successfully registered.");
@@ -88,7 +89,7 @@ public class VenueController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Map<String, Object>> updateVenue (@PathVariable Long id, @RequestBody VenueDTO venueDTO){
+    public ResponseEntity<Map<String, Object>> updateVenue (@PathVariable Long id, @Valid @RequestBody VenueDTO venueDTO){
         Venue venueUpdated = updateVenueUseCase.execute(id, venueDTOMapper.toDomain(venueDTO));
         Map<String, Object> response = new HashMap<>();
         response.put("Message: ", "Venue successfully updated.");
@@ -97,7 +98,7 @@ public class VenueController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Map<String, Object>> editVenue (@PathVariable Long id, @RequestBody VenueDTO venueDTO){
+    public ResponseEntity<Map<String, Object>> editVenue (@PathVariable Long id, @Valid @RequestBody VenueDTO venueDTO){
         Venue editedVenue = editVenueUseCase.execute(id, venueDTOMapper.toDomain(venueDTO));
         Map<String, Object> response = new HashMap<>();
         response.put("Message: ", "Venue successfully edited.");

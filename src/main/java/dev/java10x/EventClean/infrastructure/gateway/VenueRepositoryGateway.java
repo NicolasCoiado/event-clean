@@ -2,7 +2,7 @@ package dev.java10x.EventClean.infrastructure.gateway;
 
 import dev.java10x.EventClean.core.entity.Venue;
 import dev.java10x.EventClean.core.gateway.VenueGateway;
-import dev.java10x.EventClean.infrastructure.exceptions.EventNotFound;
+import dev.java10x.EventClean.infrastructure.exceptions.EventNotFoundException;
 import dev.java10x.EventClean.infrastructure.exceptions.VenueNotFoundException;
 import dev.java10x.EventClean.infrastructure.mapper.VenueEntityMapper;
 import dev.java10x.EventClean.infrastructure.persistence.EventEntity;
@@ -96,7 +96,7 @@ public class VenueRepositoryGateway implements VenueGateway {
 
         if (venue.eventId() != null){
             EventEntity eventEntity = eventRepository.findById(venue.eventId())
-                    .orElseThrow(() -> new EventNotFound ("Event with ID: " + id + " not found!"));
+                    .orElseThrow(() -> new EventNotFoundException ("Event with ID: " + id + " not found!"));
             venueEntity.setEvent(eventEntity);
         }
 
@@ -128,7 +128,7 @@ public class VenueRepositoryGateway implements VenueGateway {
 
         if (venue.eventId() != null) {
             EventEntity eventEntity = eventRepository.findById(venue.eventId())
-                    .orElseThrow(() -> new EventNotFound("Event with ID: " + venue.eventId() + " not found!"));
+                    .orElseThrow(() -> new EventNotFoundException("Event with ID: " + venue.eventId() + " not found!"));
             venueEntity.setEvent(eventEntity);
         }
 
@@ -139,7 +139,7 @@ public class VenueRepositoryGateway implements VenueGateway {
     @Override
     public void deleteVenue(Long id) {
         VenueEntity venueEntity = venueRepository.findById(id)
-                .orElseThrow(() -> new EventNotFound("Venue with ID: " + id + " not found!"));
+                .orElseThrow(() -> new EventNotFoundException("Venue with ID: " + id + " not found!"));
 
         if (venueEntity.getEvent() != null) {
             EventEntity eventEntity = venueEntity.getEvent();
