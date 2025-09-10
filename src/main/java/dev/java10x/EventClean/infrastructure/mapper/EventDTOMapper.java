@@ -32,7 +32,7 @@ public class EventDTOMapper {
                 dto.identifier(),
                 dto.start_date(),
                 dto.end_date(),
-                dto.idVenue(),
+                dto.venueId(),
                 dto.capacity(),
                 dto.type()
         );

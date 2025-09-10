@@ -32,6 +32,21 @@ public class BeanConfiguration {
         return new FindEventByIdentifierUseCaseImpl(eventGateway);
     }
 
+    @Bean
+    public UpdateEventUseCase updateEventUseCase(EventGateway eventGateway) {
+        return new UpdateEventUseCaseImpl(eventGateway);
+    }
+
+    @Bean
+    public EditEventUseCase editEventUseCase(EventGateway eventGateway) {
+        return new EditEventUseCaseImpl(eventGateway);
+    }
+
+    @Bean
+    public DeleteEventUseCase deleteEventUseCase(EventGateway eventGateway) {
+        return new DeleteEventUseCaseImpl(eventGateway);
+    }
+
     // Bean configuration for the Venue
 
     @Bean
