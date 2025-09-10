@@ -2,6 +2,8 @@ package dev.java10x.EventClean.infrastructure.gateway;
 
 import dev.java10x.EventClean.core.entity.Venue;
 import dev.java10x.EventClean.core.gateway.VenueGateway;
+import dev.java10x.EventClean.infrastructure.exceptions.EventNotFound;
+import dev.java10x.EventClean.infrastructure.exceptions.VenueNotFoundException;
 import dev.java10x.EventClean.infrastructure.mapper.VenueEntityMapper;
 import dev.java10x.EventClean.infrastructure.persistence.EventEntity;
 import dev.java10x.EventClean.infrastructure.persistence.EventRepository;
@@ -11,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Component
@@ -30,7 +31,7 @@ public class VenueRepositoryGateway implements VenueGateway {
             venueEntity = venueEntityMapper.toEntity(venue);
         } else {
             EventEntity eventEntity = eventRepository.findById(venue.eventId())
-                    .orElseThrow(() -> new IllegalArgumentException("Evento não encontrado com id: " + venue.eventId()));
+                    .orElseThrow(() -> new VenueNotFoundException("Venue with ID: " + venue.eventId() + " not found!"));
 
             venueEntity = venueEntityMapper.toEntityWithEvent(venue, eventEntity);
 
@@ -49,63 +50,65 @@ public class VenueRepositoryGateway implements VenueGateway {
 
     @Override
     public Venue findVenueById(Long id) {
-        Optional<VenueEntity> optVenue = venueRepository.findById(id);
-        return venueEntityMapper.toDomain(optVenue.get());
+        VenueEntity venueEntity = venueRepository.findById(id)
+                .orElseThrow(() -> new VenueNotFoundException("Venue with ID: " + id + " not found!"));
+
+        return venueEntityMapper.toDomain(venueEntity);
     }
 
     public VenueEntity findVenueEntityById(Long id) {
         return venueRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Venue not found with id " + id));
+                .orElseThrow(() -> new VenueNotFoundException("Venue with ID: " + id + " not found!"));
     }
 
     @Override
     public Venue findVenueByStablishmentName(String stablishmentName) {
-        Optional<VenueEntity> venueEntity = venueRepository.findVenueByStablishmentName(stablishmentName);
-        return venueEntityMapper.toDomain(venueEntity.get());
+        VenueEntity venueEntity = venueRepository.findVenueByStablishmentName(stablishmentName)
+                .orElseThrow(() -> new VenueNotFoundException("Venue named '" + stablishmentName + "' was not found."));
+        return venueEntityMapper.toDomain(venueEntity);
     }
 
     @Override
     public Venue findVenueByNeighborhood(String neighborhood) {
-        Optional<VenueEntity> optVenueFound = venueRepository.findVenueByNeighborhood(neighborhood);
-        return venueEntityMapper.toDomain(optVenueFound.get());
+        VenueEntity optVenueFound = venueRepository.findVenueByNeighborhood(neighborhood)
+                .orElseThrow(() -> new VenueNotFoundException("No venue found in neighborhood '" + neighborhood + "'."));
+        return venueEntityMapper.toDomain(optVenueFound);
     }
 
     @Override
     public Venue findVenueByZipCode(String zipcode) {
-        Optional<VenueEntity> venueEntity = venueRepository.findVenueByZipCode(zipcode);
-        return venueEntityMapper.toDomain(venueEntity.get());
+        VenueEntity venueEntity = venueRepository.findVenueByZipCode(zipcode)
+                .orElseThrow(() -> new VenueNotFoundException("Venue with zip code '" + zipcode + "' not found!"));
+        return venueEntityMapper.toDomain(venueEntity);
     }
 
     @Override
     public Venue updateVenue(Long id, Venue venue) {
-        Optional<VenueEntity> optVenueEntity = venueRepository.findById(id);
+        VenueEntity venueEntity = venueRepository.findById(id)
+                .orElseThrow(() -> new VenueNotFoundException("Venue with ID: " + id + " not found!"));
 
-        if(optVenueEntity.isPresent()){
-            VenueEntity venueEntity = optVenueEntity.get();
-            venueEntity.setId(id);
-            venueEntity.setStablishmentName(venue.stablishment_name());
-            venueEntity.setStreet(venue.street());
-            venueEntity.setNumber(venue.number());
-            venueEntity.setNeighborhood(venue.neighborhood());
-            venueEntity.setZipCode(venue.zipCode());
+        venueEntity.setId(id);
+        venueEntity.setStablishmentName(venue.stablishment_name());
+        venueEntity.setStreet(venue.street());
+        venueEntity.setNumber(venue.number());
+        venueEntity.setNeighborhood(venue.neighborhood());
+        venueEntity.setZipCode(venue.zipCode());
 
-            if (venue.eventId() != null){
-                Optional<EventEntity> optEventFound = eventRepository.findById(venue.eventId());
-                venueEntity.setEvent(optEventFound.get());
-            }
-
-            VenueEntity venueUpdate = venueRepository.save(venueEntity);
-
-            return venueEntityMapper.toDomain(venueUpdate);
+        if (venue.eventId() != null){
+            EventEntity eventEntity = eventRepository.findById(venue.eventId())
+                    .orElseThrow(() -> new EventNotFound ("Event with ID: " + id + " not found!"));
+            venueEntity.setEvent(eventEntity);
         }
 
-        return null;
+        VenueEntity venueUpdate = venueRepository.save(venueEntity);
+
+        return venueEntityMapper.toDomain(venueUpdate);
     }
 
     @Override
     public Venue editVenue(Long id, Venue venue) {
         VenueEntity venueEntity = venueRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Venue not found with id " + id));
+                .orElseThrow(() -> new VenueNotFoundException("Venue with ID: " + id + " not found!"));
 
         if (venue.stablishment_name() != null) {
             venueEntity.setStablishmentName(venue.stablishment_name());
@@ -125,7 +128,7 @@ public class VenueRepositoryGateway implements VenueGateway {
 
         if (venue.eventId() != null) {
             EventEntity eventEntity = eventRepository.findById(venue.eventId())
-                    .orElseThrow(() -> new RuntimeException("Event not found with id " + venue.eventId()));
+                    .orElseThrow(() -> new EventNotFound("Event with ID: " + venue.eventId() + " not found!"));
             venueEntity.setEvent(eventEntity);
         }
 
@@ -136,7 +139,7 @@ public class VenueRepositoryGateway implements VenueGateway {
     @Override
     public void deleteVenue(Long id) {
         VenueEntity venueEntity = venueRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Venue not found with id " + id));
+                .orElseThrow(() -> new EventNotFound("Venue with ID: " + id + " not found!"));
 
         if (venueEntity.getEvent() != null) {
             EventEntity eventEntity = venueEntity.getEvent();
